@@ -1,0 +1,41 @@
+{
+  "name": "protofun",
+  "license": "UNLICENSED",
+  "version": "0.1.0",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "main": "dist/protofun-sdk.js",
+  "module": "dist/protofun-sdk.mjs",
+  "typings": "dist/protofun-sdk.d.ts",
+  "scripts": {
+    "start": "concurrently 'vite build --watch' 'yarn types --watch --preserveWatchOutput' --names 'vite,tsc' -c 'green,blue'",
+    "build": "vite build && yarn types",
+    "types": "tsc --project tsconfig.prod.json",
+    "check-types": "tsc --noEmit",
+    "prepublish": "yarn build",
+    "pack": "yarn pack",
+    "lint": "eslint --ext='ts' src",
+    "lint:fix": "yarn lint -- --fix",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.30.0",
+    "@typescript-eslint/parser": "^5.30.0",
+    "@vitest/coverage-c8": "^0.24.3",
+    "@vitest/ui": "^0.24.3",
+    "concurrently": "^7.4.0",
+    "cross-fetch": "^3.1.5",
+    "eslint": "^8.18.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.1.0",
+    "prettier": "^2.7.1",
+    "typescript": "^4.5.4",
+    "vite": "^2.9.15",
+    "vitest": "^0.24.3",
+    "urql": "^4.0.5"
+  }
+}
