@@ -5,8 +5,8 @@ import {
   QueryResult,
   Timeframe,
 } from "../../primitives"
-import queryBaseFeePerGas from "./base-fee-per-gas"
-import queryEtherPrice from "./ether-price"
+import queryBaseFeePerGas from "./base_fee"
+import queryEtherPrice from "./eth_price"
 
 export const supportedTimeframes: Timeframe[] = [
   "Minute",
@@ -16,7 +16,7 @@ export const supportedTimeframes: Timeframe[] = [
 ]
 
 export default async function query(request: QueryRequest): QueryResult {
-  const { timeframe, since, until, priceUnit } = request
+  const { timeframe, since, until, priceUnit, limit = 1000 } = request
 
   if (!supportedTimeframes.includes(timeframe)) {
     throw new Error(
@@ -25,10 +25,10 @@ export default async function query(request: QueryRequest): QueryResult {
   }
 
   let [baseFeePerGas, etherPrice] = await Promise.all([
-    queryBaseFeePerGas({ timeframe, since, until }),
+    queryBaseFeePerGas({ timeframe, since, until, limit }),
     priceUnit === PriceUnit.ETH
       ? Promise.resolve([])
-      : queryEtherPrice({ timeframe, since, until }),
+      : queryEtherPrice({ timeframe, since, until, limit }),
   ])
 
   if (priceUnit === PriceUnit.ETH) {

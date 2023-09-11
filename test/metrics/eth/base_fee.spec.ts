@@ -1,6 +1,6 @@
 import { expect, it } from "vitest"
 
-import query from "../../../src/metrics/eth/base-fee-per-gas"
+import query from "../../../src/metrics/eth/base_fee"
 
 it("Blocks", async () => {
   // act

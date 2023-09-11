@@ -1,6 +1,6 @@
 import { expect, it } from "vitest"
 
-import query from "../../../src/metrics/eth/ether-price"
+import query from "../../../src/metrics/eth/eth_price"
 
 it("Daily candles", async () => {
   // act

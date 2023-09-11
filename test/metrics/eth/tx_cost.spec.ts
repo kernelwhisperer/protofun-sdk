@@ -1,6 +1,6 @@
 import { expect, it } from "vitest"
 
-import query from "../../../src/metrics/eth/tx-cost"
+import query from "../../../src/metrics/eth/tx_cost"
 import { Candle, PriceUnit } from "../../../src/primitives"
 
 it("Daily candles in USD", async () => {

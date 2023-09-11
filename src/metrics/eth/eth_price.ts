@@ -15,7 +15,7 @@ export const supportedTimeframes: Timeframe[] = [
 ]
 
 export default async function query(request: QueryRequest): QueryResult {
-  const { timeframe, since, until } = request
+  const { timeframe, since, until, limit = 1000 } = request
   const interval = timeframeMapping[timeframe]
 
   if (!supportedTimeframes.includes(timeframe)) {
@@ -24,7 +24,7 @@ export default async function query(request: QueryRequest): QueryResult {
     )
   }
 
-  let apiUrl = `https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=${interval}&limit=1000`
+  let apiUrl = `https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=${interval}&limit=${limit}`
   if (since) {
     const timestamp = parseInt(since) * 1000 + 1 // greather than since
     apiUrl = `${apiUrl}&startTime=${timestamp}`

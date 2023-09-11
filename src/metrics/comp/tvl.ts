@@ -20,7 +20,7 @@ const timeframeMapping: Partial<Record<Timeframe, string>> = {
 export const supportedTimeframes: Timeframe[] = ["Hour", "Day"]
 
 export default async function query(request: QueryRequest): QueryResult {
-  const { timeframe, since, until } = request
+  const { timeframe, since, until, limit = 1000 } = request
 
   if (!supportedTimeframes.includes(timeframe)) {
     throw new Error(
@@ -36,7 +36,7 @@ export default async function query(request: QueryRequest): QueryResult {
 
   const graphQuery = gql`query($since: BigInt, $until: BigInt) {
     ${collection}(
-      first: 1000
+      first: ${String(limit)}
       orderBy: timestamp
       orderDirection: desc
       where: {

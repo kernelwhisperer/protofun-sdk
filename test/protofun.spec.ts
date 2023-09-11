@@ -8,6 +8,7 @@ it("should have named exports", () => {
       "PriceUnit",
       "isCandle",
       "isCandleArray",
+      "METRIC_DECLARATIONS",
     ]
   `)
 })

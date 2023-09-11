@@ -11,14 +11,14 @@ const client = createClient({
 })
 
 export default async function query(request: QueryRequest): QueryResult {
-  const { timeframe, since, until } = request
+  const { timeframe, since, until, limit = 1000 } = request
 
   const collection =
     timeframe === "Block" ? "blocks" : `baseFeePerGas${timeframe}Candles`
 
   const graphQuery = gql`query($since: BigInt, $until: BigInt) {
     ${collection}(
-      first: 1000
+      first: ${String(limit)}
       orderBy: timestamp
       orderDirection: desc,
       where: {

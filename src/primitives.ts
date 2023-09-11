@@ -48,6 +48,10 @@ export type QueryRequest = {
   since?: string
   until?: string
   priceUnit?: PriceUnit
+  /**
+   * @default 1000
+   */
+  limit?: number
 }
 export type QueryResult = Promise<Candle[] | SimpleBlock[]>
 export type QueryFn = (request: QueryRequest) => QueryResult
