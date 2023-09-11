@@ -2,13 +2,13 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     // overrides
+    "module": "CommonJS",
     "noEmit": false,
     "isolatedModules": false,
     // new configs
-    "emitDeclarationOnly": true,
     "declaration": true,
-    "outFile": "dist/protofun.d.ts",
-    "declarationMap": true
+    "declarationMap": true,
+    "outDir": "dist"
   },
   "exclude": ["test"]
 }
