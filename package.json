@@ -6,9 +6,9 @@
     "dist",
     "src"
   ],
-  "main": "dist/protofun-sdk.js",
-  "module": "dist/protofun-sdk.mjs",
-  "typings": "dist/protofun-sdk.d.ts",
+  "main": "dist/protofun.js",
+  "module": "dist/protofun.mjs",
+  "typings": "dist/protofun.d.ts",
   "scripts": {
     "start": "concurrently 'vite build --watch' 'yarn types --watch --preserveWatchOutput' --names 'vite,tsc' -c 'green,blue'",
     "build": "vite build && yarn types",
