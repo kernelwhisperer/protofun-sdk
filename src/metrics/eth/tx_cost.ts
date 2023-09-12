@@ -12,10 +12,10 @@ export default async function query(request: QueryRequest): QueryResult {
   }
 
   let [baseFeePerGas, etherPrice] = await Promise.all([
-    queryBaseFeePerGas({ timeframe, since, until, limit }),
+    queryBaseFeePerGas({ limit, since, timeframe, until }),
     priceUnit === PriceUnit.ETH
       ? Promise.resolve([])
-      : queryEtherPrice({ timeframe, since, until, limit }),
+      : queryEtherPrice({ limit, since, timeframe, until }),
   ])
 
   if (priceUnit === PriceUnit.ETH) {

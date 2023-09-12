@@ -3,13 +3,13 @@ import { defineConfig } from "vitest/config"
 // https://vitest.dev/config/
 export default defineConfig({
   test: {
-    globals: true,
-    environment: "node",
-    testTimeout: 10_000,
-    reporters: ["verbose"],
     coverage: {
       reporter: ["text", "html"],
     },
+    environment: "node",
+    globals: true,
     maxConcurrency: 5,
+    reporters: ["verbose"],
+    testTimeout: 10_000,
   },
 })

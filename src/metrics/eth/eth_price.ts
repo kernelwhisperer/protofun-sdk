@@ -46,7 +46,7 @@ export default async function query(request: QueryRequest): QueryResult {
   //     "0"                 // Unused field, ignore.
   //   ]
   // ]
-  return data.map((x: any) => ({
+  return data.map((x: number[]) => ({
     close: x[4],
     high: x[2],
     low: x[3],

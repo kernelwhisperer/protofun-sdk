@@ -7,20 +7,20 @@ export enum PriceUnit {
 }
 
 export type Block = {
+  baseFeePerGas: string // BigInt
+  burnedFees: string // BigInt
+  firstGasPrice: string // BigInt
+  gasFees: string // BigInt
+  gasUsed: string // BigInt
   id: string // bytes
+  lastGasPrice: string // BigInt
+  maxGasPrice: string // BigInt
+  minGasPrice: string // BigInt
+  minerTips: string // BigInt
   number: string // BigInt
   timestamp: string // BigInt
-  gasUsed: string // BigInt
-  baseFeePerGas: string // BigInt
   // txns: Array<Txn>
   txnCount: number
-  minGasPrice: string // BigInt
-  maxGasPrice: string // BigInt
-  firstGasPrice: string // BigInt
-  lastGasPrice: string // BigInt
-  gasFees: string // BigInt
-  burnedFees: string // BigInt
-  minerTips: string // BigInt
 }
 
 export type SimpleBlock = Omit<Block, "txns" | "timestamp"> & {
@@ -44,14 +44,14 @@ export function isCandleArray(value: unknown[]): value is Candle[] {
 }
 
 export type QueryRequest = {
-  timeframe: Timeframe
-  since?: string
-  until?: string
-  priceUnit?: PriceUnit
   /**
    * @default 1000
    */
   limit?: number
+  priceUnit?: PriceUnit
+  since?: string
+  timeframe: Timeframe
+  until?: string
 }
 export type QueryResult = Promise<Candle[] | SimpleBlock[]>
 export type QueryFn = (request: QueryRequest) => QueryResult

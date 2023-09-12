@@ -6,17 +6,17 @@ import { Candle, PriceUnit } from "../../../src/primitives"
 it("Daily candles in USD", async () => {
   // act
   const candles = (await query({
-    timeframe: "Day",
     since: "1628121600",
+    timeframe: "Day",
     until: "1628553600",
   })) as Candle[]
   // assert
   expect(
     candles.map((x) => ({
       close: parseFloat(x.close) * 21_000,
-      open: parseFloat(x.open) * 21_000,
-      low: parseFloat(x.low) * 21_000,
       high: parseFloat(x.high) * 21_000,
+      low: parseFloat(x.low) * 21_000,
+      open: parseFloat(x.open) * 21_000,
       timestamp: x.timestamp,
     }))
   ).toMatchSnapshot()
@@ -25,18 +25,18 @@ it("Daily candles in USD", async () => {
 it("Daily candles in ETH", async () => {
   // act
   const candles = (await query({
-    timeframe: "Day",
-    since: "1628121600",
-    until: "1628553600",
     priceUnit: PriceUnit.ETH,
+    since: "1628121600",
+    timeframe: "Day",
+    until: "1628553600",
   })) as Candle[]
   // assert
   expect(
     candles.map((x) => ({
       close: parseFloat(x.close) * 21_000,
-      open: parseFloat(x.open) * 21_000,
-      low: parseFloat(x.low) * 21_000,
       high: parseFloat(x.high) * 21_000,
+      low: parseFloat(x.low) * 21_000,
+      open: parseFloat(x.open) * 21_000,
       timestamp: x.timestamp,
     }))
   ).toMatchSnapshot()
@@ -45,17 +45,17 @@ it("Daily candles in ETH", async () => {
 it("Weekly candles", async () => {
   // act
   const candles = (await query({
-    timeframe: "Week",
     since: "1627862400",
+    timeframe: "Week",
     until: "1630886400",
   })) as Candle[]
   // assert
   expect(
     candles.map((x) => ({
       close: parseFloat(x.close) * 21_000,
-      open: parseFloat(x.open) * 21_000,
-      low: parseFloat(x.low) * 21_000,
       high: parseFloat(x.high) * 21_000,
+      low: parseFloat(x.low) * 21_000,
+      open: parseFloat(x.open) * 21_000,
       timestamp: x.timestamp,
     }))
   ).toMatchSnapshot()

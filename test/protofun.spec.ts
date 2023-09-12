@@ -1,5 +1,6 @@
+import { expect, it } from "vitest"
+
 import * as protofun from "../src/protofun"
-import { it, expect } from "vitest"
 
 it("should have named exports", () => {
   expect(Object.keys(protofun)).toMatchInlineSnapshot(`

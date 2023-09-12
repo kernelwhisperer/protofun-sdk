@@ -1,6 +1,7 @@
 import { createClient, fetchExchange, gql } from "urql/core"
-import { Timeframe, QueryResult, QueryRequest } from "../../primitives"
+
 import { IndexerError } from "../../errors"
+import { QueryRequest, QueryResult, Timeframe } from "../../primitives"
 import { MarketDailySnapshot } from "./types"
 
 // const API_KEY = "6e951d2948be69a241891fb15ec9cefb";

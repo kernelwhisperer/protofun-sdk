@@ -1,6 +1,7 @@
 import { createClient, fetchExchange, gql } from "urql/core"
-import { QueryRequest, QueryResult } from "../../primitives"
+
 import { IndexerError } from "../../errors"
+import { QueryRequest, QueryResult } from "../../primitives"
 
 // TODO enable text compression on the api
 const API_URL = "https://api.protocol.fun/subgraphs/name/protofun_block_meta"
