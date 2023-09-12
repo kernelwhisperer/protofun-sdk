@@ -22,8 +22,8 @@ export default async function query(request: QueryRequest): QueryResult {
       orderBy: timestamp
       orderDirection: desc,
       where: {
-        ${since ? `timestamp_gt: $since,` : ""}
-        ${until ? `timestamp_lt: $until,` : ""}
+        ${since ? `timestamp_gte: $since,` : ""}
+        ${until ? `timestamp_lte: $until,` : ""}
       }
     ) {
       ${

@@ -43,8 +43,8 @@ export default async function query(request: QueryRequest): QueryResult {
         market_: {
           id: "0xc3d688b66703497daa19211eedff47f25384cdc3c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
         }
-        ${since ? `timestamp_gt: $since,` : ""}
-        ${until ? `timestamp_lt: $until,` : ""}
+        ${since ? `timestamp_gte: $since,` : ""}
+        ${until ? `timestamp_lte: $until,` : ""}
       }
     ) {
       totalValueLockedUSD

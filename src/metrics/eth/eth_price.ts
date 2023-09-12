@@ -26,11 +26,11 @@ export default async function query(request: QueryRequest): QueryResult {
 
   let apiUrl = `https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=${interval}&limit=${limit}`
   if (since) {
-    const timestamp = parseInt(since) * 1000 + 1 // greather than since
+    const timestamp = parseInt(since) * 1000
     apiUrl = `${apiUrl}&startTime=${timestamp}`
   }
   if (until) {
-    const timestamp = parseInt(until) * 1000 - 1 // less than until
+    const timestamp = parseInt(until) * 1000
     apiUrl = `${apiUrl}&endTime=${timestamp}`
   }
 
