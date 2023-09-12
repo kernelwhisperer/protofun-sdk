@@ -11,7 +11,6 @@ export type ProtocolId = keyof typeof METRIC_DECLARATIONS
 // type ValueOf<T> = T[keyof T];
 // export type MetricId = ValueOf<typeof METRIC_LIST_DEFINITION>[number];
 
-export type MetricIdForProtocol<T extends ProtocolId> =
-  typeof METRIC_DECLARATIONS[T][number]
+export type MetricIdForProtocol<T extends ProtocolId> = typeof METRIC_DECLARATIONS[T][number]
 
 export type MetricId = MetricIdForProtocol<ProtocolId>

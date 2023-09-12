@@ -23,9 +23,7 @@ export default async function query(request: QueryRequest): QueryResult {
   const { timeframe, since, until, limit = 1000 } = request
 
   if (!supportedTimeframes.includes(timeframe)) {
-    throw new Error(
-      `Timeframe '${timeframe}' is not supported for this metric.`
-    )
+    throw new Error(`Timeframe '${timeframe}' is not supported for this metric.`)
   }
 
   if (since) {
@@ -60,10 +58,7 @@ export default async function query(request: QueryRequest): QueryResult {
 
   if (response.error) {
     let errorMessage = response.error.toString()
-    if (
-      errorMessage.includes("ECONNREFUSED") ||
-      errorMessage.includes("Failed to fetch")
-    ) {
+    if (errorMessage.includes("ECONNREFUSED") || errorMessage.includes("Failed to fetch")) {
       errorMessage = "Connection failed"
     }
 

@@ -7,21 +7,14 @@ const timeframeMapping: Partial<Record<Timeframe, string>> = {
   Week: "1w",
 }
 
-export const supportedTimeframes: Timeframe[] = [
-  "Minute",
-  "Hour",
-  "Day",
-  "Week",
-]
+export const supportedTimeframes: Timeframe[] = ["Minute", "Hour", "Day", "Week"]
 
 export default async function query(request: QueryRequest): QueryResult {
   const { timeframe, since, until, limit = 1000 } = request
   const interval = timeframeMapping[timeframe]
 
   if (!supportedTimeframes.includes(timeframe)) {
-    throw new Error(
-      `Timeframe '${timeframe}' is not supported for this metric.`
-    )
+    throw new Error(`Timeframe '${timeframe}' is not supported for this metric.`)
   }
 
   let apiUrl = `https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=${interval}&limit=${limit}`

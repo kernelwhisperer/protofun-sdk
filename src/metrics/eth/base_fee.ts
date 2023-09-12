@@ -13,8 +13,7 @@ const client = createClient({
 export default async function query(request: QueryRequest): QueryResult {
   const { timeframe, since, until, limit = 1000 } = request
 
-  const collection =
-    timeframe === "Block" ? "blocks" : `baseFeePerGas${timeframe}Candles`
+  const collection = timeframe === "Block" ? "blocks" : `baseFeePerGas${timeframe}Candles`
 
   const graphQuery = gql`query($since: BigInt, $until: BigInt) {
     ${collection}(
@@ -48,10 +47,7 @@ export default async function query(request: QueryRequest): QueryResult {
 
   if (response.error) {
     let errorMessage = response.error.toString()
-    if (
-      errorMessage.includes("ECONNREFUSED") ||
-      errorMessage.includes("Failed to fetch")
-    ) {
+    if (errorMessage.includes("ECONNREFUSED") || errorMessage.includes("Failed to fetch")) {
       errorMessage = "Connection failed"
     }
 
