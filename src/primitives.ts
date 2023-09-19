@@ -1,4 +1,13 @@
 export type Timeframe = "Block" | "Minute" | "Hour" | "Day" | "Week"
+export const TIME_FRAMES: Record<Timeframe, string> = {
+  Block: "Block",
+  Minute: "1m",
+  // eslint-disable-next-line sort-keys-fix/sort-keys-fix
+  Hour: "1h",
+  // eslint-disable-next-line sort-keys-fix/sort-keys-fix
+  Day: "D",
+  Week: "W",
+}
 
 export enum PriceUnit {
   ETH = "ETH",
@@ -20,14 +29,6 @@ export type Candle = {
   low: string
   open: string
   timestamp: string
-}
-
-export function isCandle(value: unknown): value is Candle {
-  return typeof value === "object" && value !== null && "open" in value
-}
-
-export function isCandleArray(value: unknown[]): value is Candle[] {
-  return Array.isArray(value) && value.length > 0 && isCandle(value[0])
 }
 
 export type QueryRequest = {

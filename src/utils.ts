@@ -1,4 +1,14 @@
-import { MetricId, ProtocolId, QueryFn, SubscribeFn, Timeframe } from "./protofun"
+import {
+  Candle,
+  MetricId,
+  METRICS_MAP,
+  PROTOCOL_MAP,
+  ProtocolId,
+  QueryFn,
+  SubscribeFn,
+  TIME_FRAMES,
+  Timeframe,
+} from "./protofun"
 
 export async function wait(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -24,4 +34,24 @@ export async function loadMetricFns(
 
 export function getLowestTimeframe(supportedTimeframes: Timeframe[]) {
   return supportedTimeframes.find((x) => x !== "Block") as Timeframe
+}
+
+export function isProtocolId(value: string): value is ProtocolId {
+  return value in PROTOCOL_MAP
+}
+
+export function isMetric(protocol: ProtocolId, value: string): value is MetricId {
+  return !!METRICS_MAP[protocol]?.[value as MetricId]
+}
+
+export function isTimeframe(value: string): value is Timeframe {
+  return Object.keys(TIME_FRAMES).includes(value)
+}
+
+export function isCandle(value: unknown): value is Candle {
+  return typeof value === "object" && value !== null && "open" in value
+}
+
+export function isCandleArray(value: unknown[]): value is Candle[] {
+  return Array.isArray(value) && value.length > 0 && isCandle(value[0])
 }
