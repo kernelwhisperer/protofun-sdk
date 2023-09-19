@@ -87,18 +87,6 @@ exports[`Daily candles 1`] = `
 ]
 `;
 
-exports[`Subscribe 1`] = `
-[
-  {
-    "close": "9900346155",
-    "high": "10048136236",
-    "low": "9485515605",
-    "open": "9650738006",
-    "timestamp": "1695122400",
-  },
-]
-`;
-
 exports[`Weekly candles 1`] = `
 [
   {
