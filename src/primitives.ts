@@ -6,24 +6,11 @@ export enum PriceUnit {
   GWEI = "Gwei",
 }
 
-export type Block = {
+/**
+ * @internal
+ */
+export type BlockData = {
   baseFeePerGas: string // BigInt
-  burnedFees: string // BigInt
-  firstGasPrice: string // BigInt
-  gasFees: string // BigInt
-  gasUsed: string // BigInt
-  id: string // bytes
-  lastGasPrice: string // BigInt
-  maxGasPrice: string // BigInt
-  minGasPrice: string // BigInt
-  minerTips: string // BigInt
-  number: string // BigInt
-  timestamp: string // BigInt
-  // txns: Array<Txn>
-  txnCount: number
-}
-
-export type SimpleBlock = Omit<Block, "txns" | "timestamp"> & {
   timestamp: string
 }
 
@@ -53,5 +40,23 @@ export type QueryRequest = {
   timeframe: Timeframe
   until?: string
 }
-export type QueryResult = Promise<Candle[] | SimpleBlock[]>
+export type QueryResult = Promise<Candle[]>
 export type QueryFn = (request: QueryRequest) => QueryResult
+
+export type SubscribeRequest = {
+  onNewData: (data: Candle) => void
+  /**
+   * in milliseconds
+   * @default 3000
+   */
+  pollingInterval?: number
+  priceUnit?: PriceUnit
+  since?: string
+  timeframe: Timeframe
+}
+
+/**
+ * @returns cleanup function used to unsubscribe
+ */
+export type SubscribeResult = () => void
+export type SubscribeFn = (request: SubscribeRequest) => SubscribeResult

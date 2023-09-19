@@ -1,7 +1,14 @@
 import { createClient, fetchExchange, gql } from "urql/core"
 
 import { IndexerError } from "../../errors"
-import { QueryRequest, QueryResult } from "../../primitives"
+import {
+  BlockData,
+  Candle,
+  QueryRequest,
+  QueryResult,
+  SubscribeRequest,
+  SubscribeResult,
+} from "../../primitives"
 
 // TODO enable text compression on the api
 const API_URL = "https://api.protocol.fun/subgraphs/name/protofun_block_meta"
@@ -28,12 +35,8 @@ export default async function query(request: QueryRequest): QueryResult {
     ) {
       ${
         collection === "blocks"
-          ? `number
-             timestamp
-             gasUsed
-             baseFeePerGas
-             burnedFees
-             minerTips`
+          ? `timestamp
+             baseFeePerGas`
           : `timestamp
              open
              high
@@ -59,5 +62,43 @@ export default async function query(request: QueryRequest): QueryResult {
     throw new IndexerError("Empty response. Has the subgraph finish syncing?")
   }
 
-  return response.data[collection].reverse()
+  if (collection === "blocks") {
+    const data = response.data[collection] as BlockData[]
+
+    const parsed: Candle[] = []
+
+    for (let i = data.length - 1; i >= 0; i--) {
+      const entry = data[i]
+
+      parsed.push({
+        close: entry.baseFeePerGas,
+        high: entry.baseFeePerGas,
+        low: entry.baseFeePerGas,
+        open: entry.baseFeePerGas,
+        timestamp: entry.timestamp,
+      })
+    }
+    return parsed
+  } else {
+    const data = response.data[collection] as Candle[]
+    return data.reverse()
+  }
+}
+
+export function subscribe(request: SubscribeRequest): SubscribeResult {
+  const { timeframe, since, onNewData, pollingInterval = 3000 } = request
+  let lastTimestamp = since
+
+  const intervalId = setInterval(async () => {
+    const data = await query({ since: lastTimestamp, timeframe })
+
+    if (data.length) {
+      lastTimestamp = data[data.length - 1].timestamp
+      data.forEach(onNewData)
+    }
+  }, pollingInterval)
+
+  return function cleanup() {
+    clearInterval(intervalId)
+  }
 }

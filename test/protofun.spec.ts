@@ -6,10 +6,10 @@ it("should have named exports", () => {
   expect(Object.keys(protofun)).toMatchInlineSnapshot(`
     [
       "IndexerError",
+      "METRIC_DECLARATIONS",
       "PriceUnit",
       "isCandle",
       "isCandleArray",
-      "METRIC_DECLARATIONS",
     ]
   `)
 })

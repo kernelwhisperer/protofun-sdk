@@ -1,6 +1,7 @@
 import { expect, it } from "vitest"
 
-import query from "../../../src/metrics/eth/base_fee"
+import query, { subscribe } from "../../../src/metrics/eth/base_fee"
+import { wait } from "../../../src/utils"
 
 it("Blocks", async () => {
   // act
@@ -33,4 +34,26 @@ it("Weekly candles", async () => {
   })
   // assert
   expect(candles).toMatchSnapshot()
+})
+
+it("Subscribe", async () => {
+  // arrange
+  const timeframe = "Minute"
+  const candles = await query({
+    limit: 1,
+    timeframe,
+  })
+  // act
+  const unsubscribe = subscribe({
+    onNewData: (data) => {
+      candles.push(data)
+      unsubscribe()
+    },
+    pollingInterval: 100,
+    since: candles[0].timestamp,
+    timeframe,
+  })
+  // assert
+  await wait(1_000)
+  expect(candles.length).to.equal(2)
 })
