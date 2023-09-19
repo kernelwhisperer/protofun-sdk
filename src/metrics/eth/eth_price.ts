@@ -1,4 +1,10 @@
-import { QueryRequest, QueryResult, Timeframe } from "../../primitives"
+import {
+  QueryRequest,
+  QueryResult,
+  SubscribeRequest,
+  SubscribeResult,
+  Timeframe,
+} from "../../primitives"
 
 const timeframeMapping: Partial<Record<Timeframe, string>> = {
   Day: "1d",
@@ -53,4 +59,22 @@ export default async function query(request: QueryRequest): QueryResult {
     open: x[1],
     timestamp: String(x[0] / 1000),
   }))
+}
+
+export function subscribe(request: SubscribeRequest): SubscribeResult {
+  const { timeframe, since, onNewData, pollingInterval = 3000 } = request
+  let lastTimestamp = since
+
+  const intervalId = setInterval(async () => {
+    const data = await query({ since: lastTimestamp, timeframe })
+
+    if (data.length) {
+      lastTimestamp = data[data.length - 1].timestamp
+      data.forEach(onNewData)
+    }
+  }, pollingInterval)
+
+  return function cleanup() {
+    clearInterval(intervalId)
+  }
 }

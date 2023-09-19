@@ -1,6 +1,7 @@
 import { expect, it } from "vitest"
 
-import query from "../../../src/metrics/eth/eth_price"
+import query, { subscribe } from "../../../src/metrics/eth/eth_price"
+import { wait } from "../../../src/utils"
 
 it("Daily candles", async () => {
   // act
@@ -47,4 +48,26 @@ it("Block candles", async () => {
       "[Error: Timeframe 'Block' is not supported for this metric.]"
     )
   }
+})
+
+it("Subscribe", async () => {
+  // arrange
+  const timeframe = "Minute"
+  const candles = await query({
+    limit: 1,
+    timeframe,
+  })
+  // act
+  const unsubscribe = subscribe({
+    onNewData: (data) => {
+      candles.push(data)
+      unsubscribe()
+    },
+    pollingInterval: 3_000,
+    since: candles[0].timestamp,
+    timeframe,
+  })
+  // assert
+  await wait(5_000)
+  expect(candles.length).to.equal(2)
 })
