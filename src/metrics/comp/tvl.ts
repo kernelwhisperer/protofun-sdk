@@ -2,6 +2,7 @@ import { createClient, fetchExchange, gql } from "urql/core"
 
 import { IndexerError } from "../../errors"
 import { QueryRequest, QueryResult, Timeframe } from "../../primitives"
+import { getMetric } from "../../protofun"
 import { MarketDailySnapshot } from "./types"
 
 // const API_KEY = "6e951d2948be69a241891fb15ec9cefb";
@@ -18,7 +19,7 @@ const timeframeMapping: Partial<Record<Timeframe, string>> = {
   Hour: "Hourly",
 }
 
-export const supportedTimeframes: Timeframe[] = ["Hour", "Day"]
+const supportedTimeframes = getMetric("comp", "tvl").timeframes
 
 export default async function query(request: QueryRequest): QueryResult {
   const { timeframe, since, until, limit = 1000 } = request

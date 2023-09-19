@@ -6,8 +6,21 @@ it("should have named exports", () => {
   expect(Object.keys(protofun)).toMatchInlineSnapshot(`
     [
       "IndexerError",
-      "METRIC_DECLARATIONS",
+      "PROTOCOL_MAP",
+      "PROTOCOL_IDS",
+      "PROTOCOLS",
+      "METRICS_MAP",
+      "METRICS",
+      "getMetric",
+      "TIME_FRAMES",
       "PriceUnit",
+      "wait",
+      "allTimeframes",
+      "loadMetricFns",
+      "getLowestTimeframe",
+      "isProtocolId",
+      "isMetric",
+      "isTimeframe",
       "isCandle",
       "isCandleArray",
     ]

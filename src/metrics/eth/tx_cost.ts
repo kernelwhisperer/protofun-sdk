@@ -5,12 +5,12 @@ import {
   QueryResult,
   SubscribeRequest,
   SubscribeResult,
-  Timeframe,
 } from "../../primitives"
+import { getMetric } from "../../protofun"
 import queryBaseFeePerGas from "./base_fee"
 import queryEtherPrice from "./eth_price"
 
-export const supportedTimeframes: Timeframe[] = ["Minute", "Hour", "Day", "Week"]
+const supportedTimeframes = getMetric("eth", "tx_cost").timeframes
 
 export default async function query(request: QueryRequest): QueryResult {
   const { timeframe, since, until, priceUnit, limit = 1000 } = request

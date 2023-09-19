@@ -1,4 +1,5 @@
-import { PriceUnit } from "./primitives"
+import { PriceUnit, Timeframe } from "./primitives"
+import { allTimeframes } from "./utils"
 
 const METRIC_DECLARATIONS = {
   aave: [],
@@ -82,6 +83,7 @@ export type Metric = {
   priceUnits: PriceUnit[]
   protocol: ProtocolId
   significantDigits: number[]
+  timeframes: Timeframe[]
   title: string
   variants?: Variant[]
 }
@@ -105,10 +107,11 @@ export const METRICS_MAP: MetricsMapType = {
       priceUnits: [PriceUnit.USD],
       protocol: "comp",
       significantDigits: [0],
+      timeframes: ["Hour", "Day"],
       title: "Total value locked",
       variants: [{ label: "Compound V3 USDC - Wrapped Ether", precision: 1 }],
     },
-  } as Record<MetricIdForProtocol<"comp">, Metric>,
+  },
   eth: {
     base_fee: {
       id: "base_fee",
@@ -117,6 +120,7 @@ export const METRICS_MAP: MetricsMapType = {
       priceUnits: [PriceUnit.GWEI],
       protocol: "eth",
       significantDigits: [2],
+      timeframes: allTimeframes,
       title: "Base fee per gas",
     },
     eth_price: {
@@ -126,7 +130,6 @@ export const METRICS_MAP: MetricsMapType = {
       preferredLogScale: true,
       priceUnits: [PriceUnit.USD],
       protocol: "eth",
-
       significantDigits: [2],
       timeframes: ["Minute", "Hour", "Day", "Week"],
       title: "Ether price",
@@ -151,10 +154,20 @@ export const METRICS_MAP: MetricsMapType = {
         { label: "L2 Deposit", precision: 1e18 / 250_000 },
       ],
     },
-  } as Record<MetricIdForProtocol<"eth">, Metric>,
+  },
   mkr: {} as Record<MetricIdForProtocol<"mkr">, Metric>,
 }
 
 export const METRICS = PROTOCOL_IDS.map((protocolId) =>
   Object.values(METRICS_MAP[protocolId] || {})
 ).flat()
+
+export function getMetric(protocolId: ProtocolId, metricId: MetricId): Metric {
+  const metric = METRICS_MAP[protocolId][metricId]
+
+  if (!metric) {
+    throw new Error("Metric not found.")
+  }
+
+  return metric
+}

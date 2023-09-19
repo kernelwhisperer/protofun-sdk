@@ -5,6 +5,7 @@ import {
   SubscribeResult,
   Timeframe,
 } from "../../primitives"
+import { getMetric } from "../../protofun"
 
 const timeframeMapping: Partial<Record<Timeframe, string>> = {
   Day: "1d",
@@ -13,7 +14,7 @@ const timeframeMapping: Partial<Record<Timeframe, string>> = {
   Week: "1w",
 }
 
-export const supportedTimeframes: Timeframe[] = ["Minute", "Hour", "Day", "Week"]
+const supportedTimeframes = getMetric("eth", "eth_price").timeframes
 
 export default async function query(request: QueryRequest): QueryResult {
   const { timeframe, since, until, limit = 1000 } = request

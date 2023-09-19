@@ -19,7 +19,6 @@ export const allTimeframes: Timeframe[] = ["Block", "Minute", "Hour", "Day", "We
 export type MetricFnsResult = {
   query: QueryFn
   subscribe: SubscribeFn
-  supportedTimeframes: Timeframe[]
 }
 
 export async function loadMetricFns(
@@ -28,8 +27,8 @@ export async function loadMetricFns(
   packagePath = "protofun/dist/metrics"
 ): Promise<MetricFnsResult> {
   const module = await import(`${packagePath}/${protocolId}/${metricId}`)
-  const { default: query, supportedTimeframes = allTimeframes, subscribe } = module
-  return { query, subscribe, supportedTimeframes }
+  const { default: query, subscribe } = module
+  return { query, subscribe }
 }
 
 export function getLowestTimeframe(supportedTimeframes: Timeframe[]) {
