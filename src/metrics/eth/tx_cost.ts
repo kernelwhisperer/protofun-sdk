@@ -1,4 +1,12 @@
-import { Candle, PriceUnit, QueryRequest, QueryResult, Timeframe } from "../../primitives"
+import {
+  Candle,
+  PriceUnit,
+  QueryRequest,
+  QueryResult,
+  SubscribeRequest,
+  SubscribeResult,
+  Timeframe,
+} from "../../primitives"
 import queryBaseFeePerGas from "./base_fee"
 import queryEtherPrice from "./eth_price"
 
@@ -19,11 +27,10 @@ export default async function query(request: QueryRequest): QueryResult {
   ])
 
   if (priceUnit === PriceUnit.ETH) {
-    return baseFeePerGas as Candle[]
+    return baseFeePerGas
   }
 
   etherPrice = etherPrice.slice(etherPrice.length - baseFeePerGas.length)
-  baseFeePerGas = baseFeePerGas as Candle[]
 
   if (baseFeePerGas.length !== etherPrice.length) {
     // eslint-disable-next-line no-console
@@ -39,4 +46,22 @@ export default async function query(request: QueryRequest): QueryResult {
     open: String(parseFloat(x.open) * parseFloat((etherPrice[index] as Candle).open)),
     timestamp: x.timestamp,
   }))
+}
+
+export function subscribe(request: SubscribeRequest): SubscribeResult {
+  const { timeframe, since, onNewData, priceUnit, pollingInterval = 3000 } = request
+  let lastTimestamp = since
+
+  const intervalId = setInterval(async () => {
+    const data = await query({ priceUnit, since: lastTimestamp, timeframe })
+
+    if (data.length) {
+      lastTimestamp = data[data.length - 1].timestamp
+      data.forEach(onNewData)
+    }
+  }, pollingInterval)
+
+  return function cleanup() {
+    clearInterval(intervalId)
+  }
 }
