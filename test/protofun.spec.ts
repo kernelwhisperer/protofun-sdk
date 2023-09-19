@@ -16,7 +16,6 @@ it("should have named exports", () => {
       "PriceUnit",
       "wait",
       "allTimeframes",
-      "loadMetricFns",
       "getLowestTimeframe",
       "isProtocolId",
       "isMetric",

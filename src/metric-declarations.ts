@@ -124,7 +124,6 @@ export const METRICS_MAP: MetricsMapType = {
       title: "Base fee per gas",
     },
     eth_price: {
-      disallowAlerts: true,
       id: "eth_price",
       precision: 1,
       preferredLogScale: true,
@@ -135,7 +134,6 @@ export const METRICS_MAP: MetricsMapType = {
       title: "Ether price",
     },
     tx_cost: {
-      disallowAlerts: true,
       id: "tx_cost",
       precision: 1,
       preferredLogScale: true,
