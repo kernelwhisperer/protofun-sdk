@@ -10,8 +10,7 @@
   "module": "dist/protofun.mjs",
   "typings": "dist/protofun.d.ts",
   "scripts": {
-    "start": "concurrently 'vite build --watch' 'npm run types --watch --preserveWatchOutput' --names 'vite,tsc' -c 'green,blue'",
-    "build": "tsc --project tsconfig.prod.json",
+    "build": "rm -rf dist/ && tsc --project tsconfig.prod.json",
     "check-types": "tsc --noEmit",
     "prepublish": "npm run build",
     "pack": "npm run pack",
