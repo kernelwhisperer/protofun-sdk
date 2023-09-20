@@ -44,3 +44,17 @@ export function isCandle(value: unknown): value is Candle {
 export function isCandleArray(value: unknown[]): value is Candle[] {
   return Array.isArray(value) && value.length > 0 && isCandle(value[0])
 }
+
+export type NumberNotation = "standard" | "scientific" | "engineering" | "compact" | undefined
+
+export function formatNumber(
+  number: number,
+  digits: number,
+  notation: NumberNotation = "standard"
+) {
+  return new Intl.NumberFormat(undefined, {
+    maximumFractionDigits: digits,
+    minimumFractionDigits: digits,
+    notation,
+  }).format(number)
+}

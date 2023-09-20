@@ -12,6 +12,8 @@ it("should have named exports", () => {
       "METRICS_MAP",
       "METRICS",
       "getMetric",
+      "getMetricPrecision",
+      "getSignificantDigits",
       "TIME_FRAMES",
       "PriceUnit",
       "wait",
@@ -22,6 +24,7 @@ it("should have named exports", () => {
       "isTimeframe",
       "isCandle",
       "isCandleArray",
+      "formatNumber",
     ]
   `)
 })

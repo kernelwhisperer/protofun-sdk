@@ -169,3 +169,12 @@ export function getMetric(protocolId: ProtocolId, metricId: MetricId): Metric {
 
   return metric
 }
+
+export function getMetricPrecision(metric: Metric, variantIndex: number): number {
+  const { variants, precision: defaultPrecision } = metric
+  return variants ? variants[variantIndex].precision : defaultPrecision
+}
+
+export function getSignificantDigits(metric: Metric, priceUnitIndex: number): number {
+  return metric.significantDigits[priceUnitIndex]
+}
