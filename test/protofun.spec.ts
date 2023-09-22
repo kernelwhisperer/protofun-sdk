@@ -16,6 +16,7 @@ it("should have named exports", () => {
       "getSignificantDigits",
       "TIME_FRAMES",
       "PriceUnit",
+      "DEFAULT_POLLING_INTERVAL",
       "wait",
       "allTimeframes",
       "getLowestTimeframe",

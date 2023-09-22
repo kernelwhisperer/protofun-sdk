@@ -44,11 +44,13 @@ export type QueryRequest = {
 export type QueryResult = Promise<Candle[]>
 export type QueryFn = (request: QueryRequest) => QueryResult
 
+export const DEFAULT_POLLING_INTERVAL = 2_000
+
 export type SubscribeRequest = {
   onNewData: (data: Candle) => void
   /**
    * in milliseconds
-   * @default 3000
+   * @default 2000
    */
   pollingInterval?: number
   priceUnit?: PriceUnit

@@ -99,9 +99,7 @@ export const METRICS_MAP: MetricsMapType = {
   comp: {
     tvl: {
       allowCompactPriceScale: true,
-      disallowAlerts: true,
       disallowCandleType: true,
-      disallowLiveMode: true,
       id: "tvl",
       precision: 1,
       priceUnits: [PriceUnit.USD],

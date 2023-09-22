@@ -1,13 +1,21 @@
 import { createClient, fetchExchange, gql } from "urql/core"
 
 import { IndexerError } from "../../errors"
-import { QueryRequest, QueryResult, Timeframe } from "../../primitives"
+import {
+  DEFAULT_POLLING_INTERVAL,
+  QueryRequest,
+  QueryResult,
+  SubscribeRequest,
+  SubscribeResult,
+  Timeframe,
+} from "../../primitives"
 import { getMetric } from "../../protofun"
 import { MarketDailySnapshot } from "./types"
 
 // const API_KEY = "6e951d2948be69a241891fb15ec9cefb";
-const API_KEY = "2760f1cc7d18310012284ffc4be34ebc"
-const API_URL = `https://gateway.thegraph.com/api/${API_KEY}/subgraphs/id/6PaB6tKFqrL6YoAELEhFGU6Gc39cEynLbo6ETZMF3sCy`
+// const API_KEY = "2760f1cc7d18310012284ffc4be34ebc"
+// const API_URL = `https://gateway.thegraph.com/api/${API_KEY}/subgraphs/id/6PaB6tKFqrL6YoAELEhFGU6Gc39cEynLbo6ETZMF3sCy`
+const API_URL = `https://api.studio.thegraph.com/query/46580/compv3/version/latest`
 
 const client = createClient({
   exchanges: [fetchExchange],
@@ -26,10 +34,6 @@ export default async function query(request: QueryRequest): QueryResult {
 
   if (!supportedTimeframes.includes(timeframe)) {
     throw new Error(`Timeframe '${timeframe}' is not supported for this metric.`)
-  }
-
-  if (since) {
-    throw new Error(`Live data  is not supported for this metric.`)
   }
 
   const collection = `market${timeframeMapping[timeframe]}Snapshots`
@@ -85,4 +89,28 @@ export default async function query(request: QueryRequest): QueryResult {
   }
 
   return parsed
+}
+
+export function subscribe(request: SubscribeRequest): SubscribeResult {
+  const {
+    timeframe,
+    since,
+    onNewData,
+    priceUnit,
+    pollingInterval = DEFAULT_POLLING_INTERVAL,
+  } = request
+  let lastTimestamp = since
+
+  const intervalId = setInterval(async () => {
+    const data = await query({ priceUnit, since: lastTimestamp, timeframe })
+
+    if (data.length) {
+      lastTimestamp = data[data.length - 1].timestamp
+      data.forEach(onNewData)
+    }
+  }, pollingInterval)
+
+  return function cleanup() {
+    clearInterval(intervalId)
+  }
 }

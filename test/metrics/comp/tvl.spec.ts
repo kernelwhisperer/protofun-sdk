@@ -1,6 +1,7 @@
 import { expect, it } from "vitest"
 
-import query from "../../../src/metrics/comp/tvl"
+import query, { subscribe } from "../../../src/metrics/comp/tvl"
+import { wait } from "../../../src/protofun"
 
 it("Daily candles", async () => {
   // act
@@ -38,4 +39,26 @@ it("Weekly candles", async () => {
       "[Error: Timeframe 'Week' is not supported for this metric.]"
     )
   }
+})
+
+it("Subscribe", async () => {
+  // arrange
+  const timeframe = "Hour"
+  const candles = await query({
+    limit: 1,
+    timeframe,
+  })
+  // act
+  const unsubscribe = subscribe({
+    onNewData: (data) => {
+      candles.push(data)
+      unsubscribe()
+    },
+    pollingInterval: 1000,
+    since: candles[0].timestamp,
+    timeframe,
+  })
+  // assert
+  await wait(3_000)
+  expect(candles.length).to.equal(2)
 })

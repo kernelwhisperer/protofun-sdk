@@ -1,5 +1,6 @@
 import {
   Candle,
+  DEFAULT_POLLING_INTERVAL,
   PriceUnit,
   QueryRequest,
   QueryResult,
@@ -49,7 +50,13 @@ export default async function query(request: QueryRequest): QueryResult {
 }
 
 export function subscribe(request: SubscribeRequest): SubscribeResult {
-  const { timeframe, since, onNewData, priceUnit, pollingInterval = 3000 } = request
+  const {
+    timeframe,
+    since,
+    onNewData,
+    priceUnit,
+    pollingInterval = DEFAULT_POLLING_INTERVAL,
+  } = request
   let lastTimestamp = since
 
   const intervalId = setInterval(async () => {
