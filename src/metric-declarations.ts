@@ -107,7 +107,7 @@ export const METRICS_MAP: MetricsMapType = {
       significantDigits: [0],
       timeframes: ["Hour", "Day"],
       title: "Total value locked",
-      variants: [{ label: "Compound V3 USDC - Wrapped Ether", precision: 1 }],
+      variants: [{ label: "V3 USDC - Wrapped Ether Pool", precision: 1 }],
     },
   },
   eth: {
