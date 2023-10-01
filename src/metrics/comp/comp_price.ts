@@ -1,7 +1,7 @@
 import { createBinanceQuery, createBinanceSubscribe } from "../../adapters/binance-adapter"
 import { getMetric } from "../../protofun"
 
-const query = createBinanceQuery("ETHUSDT", getMetric("eth", "eth_price").timeframes)
+const query = createBinanceQuery("COMPUSDT", getMetric("comp", "comp_price").timeframes)
 
 export default query
 

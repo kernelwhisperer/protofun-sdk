@@ -3,7 +3,8 @@ import { allTimeframes } from "./utils"
 
 const METRIC_DECLARATIONS = {
   aave: [],
-  comp: ["tvl"],
+  btc: ["btc_price"],
+  comp: ["tvl", "comp_price"],
   eth: ["base_fee", "eth_price", "tx_cost"],
   mkr: [],
 } as const
@@ -16,6 +17,7 @@ export type Protocol = {
   enabled?: boolean
   id: ProtocolId
   title: string
+  wip?: boolean
 }
 
 export const PROTOCOL_MAP: Record<ProtocolId, Protocol> = {
@@ -23,15 +25,16 @@ export const PROTOCOL_MAP: Record<ProtocolId, Protocol> = {
     id: "aave",
     title: "Aave",
   },
-  // btc: {
-  //   enabled: false,
-  //   id: "btc",
-  //   title: "Bitcoin",
-  // },
+  btc: {
+    enabled: true,
+    id: "btc",
+    title: "Bitcoin",
+  },
   comp: {
     enabled: true,
     id: "comp",
     title: "Compound",
+    wip: true,
   },
   eth: {
     enabled: true,
@@ -86,6 +89,7 @@ export type Metric = {
   timeframes: Timeframe[]
   title: string
   variants?: Variant[]
+  wip?: boolean
 }
 
 // type MapType<T extends ProtocolId> = Record<
@@ -95,8 +99,30 @@ export type Metric = {
 type MetricsMapType = Record<ProtocolId, Partial<Record<MetricId, Metric>>>
 
 export const METRICS_MAP: MetricsMapType = {
-  aave: {} as Record<MetricIdForProtocol<"aave">, Metric>,
+  aave: {},
+  btc: {
+    btc_price: {
+      id: "btc_price",
+      precision: 1,
+      preferredLogScale: true,
+      priceUnits: [PriceUnit.USD],
+      protocol: "btc",
+      significantDigits: [0],
+      timeframes: ["Minute", "Hour", "Day", "Week"],
+      title: "BTC price",
+    },
+  },
   comp: {
+    comp_price: {
+      id: "comp_price",
+      precision: 1,
+      preferredLogScale: true,
+      priceUnits: [PriceUnit.USD],
+      protocol: "comp",
+      significantDigits: [2],
+      timeframes: ["Minute", "Hour", "Day", "Week"],
+      title: "Comp price",
+    },
     tvl: {
       allowCompactPriceScale: true,
       disallowCandleType: true,
@@ -108,6 +134,7 @@ export const METRICS_MAP: MetricsMapType = {
       timeframes: ["Hour", "Day"],
       title: "Total value locked",
       variants: [{ label: "V3 USDC - Wrapped Ether Pool", precision: 1 }],
+      wip: true,
     },
   },
   eth: {
@@ -151,7 +178,7 @@ export const METRICS_MAP: MetricsMapType = {
       ],
     },
   },
-  mkr: {} as Record<MetricIdForProtocol<"mkr">, Metric>,
+  mkr: {},
 }
 
 export const METRICS = PROTOCOL_IDS.map((protocolId) =>
