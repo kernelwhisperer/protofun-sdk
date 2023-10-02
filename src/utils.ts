@@ -14,6 +14,9 @@ export async function wait(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export function noop() {}
+
 export const allTimeframes: Timeframe[] = ["Block", "Minute", "Hour", "Day", "Week"]
 
 export type MetricFnsResult = {

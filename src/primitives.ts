@@ -89,8 +89,10 @@ export type SubscribeRequest = {
   timeframe: Timeframe
 }
 
+export type LoggerFn = (message: string, metadata?: object) => void
+
 /**
  * @returns cleanup function used to unsubscribe
  */
 export type SubscribeResult = () => void
-export type SubscribeFn = (request: SubscribeRequest) => SubscribeResult
+export type SubscribeFn = (request: SubscribeRequest, logger: LoggerFn) => SubscribeResult

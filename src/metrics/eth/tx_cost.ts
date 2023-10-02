@@ -7,7 +7,7 @@ import {
   SubscribeRequest,
   SubscribeResult,
 } from "../../primitives"
-import { getMetric } from "../../protofun"
+import { getMetric, LoggerFn, noop } from "../../protofun"
 import queryBaseFeePerGas from "./base_fee"
 import queryEtherPrice from "./eth_price"
 
@@ -49,7 +49,7 @@ export default async function query(request: QueryRequest): QueryResult {
   }))
 }
 
-export function subscribe(request: SubscribeRequest): SubscribeResult {
+export function subscribe(request: SubscribeRequest, logger: LoggerFn = noop): SubscribeResult {
   const {
     timeframe,
     since,
@@ -61,6 +61,13 @@ export function subscribe(request: SubscribeRequest): SubscribeResult {
 
   const intervalId = setInterval(async () => {
     const data = await query({ priceUnit, since: lastTimestamp, timeframe })
+    logger("subscribe: query finished", {
+      dataLength: data.length,
+      lastTimestamp,
+      nextTimestamp: data[data.length - 1].timestamp,
+      priceUnit,
+      timeframe,
+    })
 
     if (data.length) {
       lastTimestamp = data[data.length - 1].timestamp

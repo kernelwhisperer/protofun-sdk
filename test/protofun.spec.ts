@@ -18,6 +18,7 @@ it("should have named exports", () => {
       "PriceUnit",
       "DEFAULT_POLLING_INTERVAL",
       "wait",
+      "noop",
       "allTimeframes",
       "getLowestTimeframe",
       "isProtocolId",
