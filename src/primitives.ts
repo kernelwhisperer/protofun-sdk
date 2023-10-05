@@ -95,4 +95,4 @@ export type LoggerFn = (message: string, metadata?: object) => void
  * @returns cleanup function used to unsubscribe
  */
 export type SubscribeResult = () => void
-export type SubscribeFn = (request: SubscribeRequest, logger: LoggerFn) => SubscribeResult
+export type SubscribeFn = (request: SubscribeRequest, logger?: LoggerFn) => SubscribeResult

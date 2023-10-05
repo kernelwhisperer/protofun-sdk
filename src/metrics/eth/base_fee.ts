@@ -82,7 +82,11 @@ export default async function query(request: QueryRequest): QueryResult {
     return parsed
   } else {
     const data = response.data[collection] as Candle[]
-    return data.reverse()
+    const reversed: Candle[] = []
+    for (let i = data.length - 1; i >= 0; i--) {
+      reversed.push(data[i])
+    }
+    return reversed
   }
 }
 
