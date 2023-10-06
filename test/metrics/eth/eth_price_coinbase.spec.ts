@@ -71,5 +71,6 @@ it("Subscribe", async () => {
   })
   // assert
   await wait(5_000)
-  expect(candles.length).to.equal(2)
+  // Sometimes, if we're lucky, we get the next candle + an update to the previous one
+  expect([2, 3]).to.include(candles.length)
 })

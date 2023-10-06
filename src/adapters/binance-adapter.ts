@@ -19,7 +19,7 @@ const timeframeMapping: Partial<Record<Timeframe, string>> = {
 
 export function createBinanceQuery(symbol: string, supportedTimeframes: Timeframe[]) {
   return async function query(request: QueryRequest): QueryResult {
-    const { timeframe, since, until, limit = 1000 } = request
+    const { timeframe, since, until, limit = 300 } = request
     const interval = timeframeMapping[timeframe]
 
     if (!supportedTimeframes.includes(timeframe)) {

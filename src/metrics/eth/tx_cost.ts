@@ -14,7 +14,7 @@ import queryEtherPrice from "./eth_price"
 const supportedTimeframes = getMetric("eth", "tx_cost").timeframes
 
 export default async function query(request: QueryRequest): QueryResult {
-  const { timeframe, since, until, priceUnit, limit = 1000 } = request
+  const { timeframe, since, until, priceUnit, limit = 300 } = request
 
   if (!supportedTimeframes.includes(timeframe)) {
     throw new Error(`Timeframe '${timeframe}' is not supported for this metric.`)

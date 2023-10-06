@@ -20,7 +20,7 @@ const client = createClient({
 })
 
 export default async function query(request: QueryRequest): QueryResult {
-  const { timeframe, since, until, limit = 1000 } = request
+  const { timeframe, since, until, limit = 300 } = request
 
   const collection = timeframe === "Block" ? "blocks" : `baseFeePerGas${timeframe}Candles`
 

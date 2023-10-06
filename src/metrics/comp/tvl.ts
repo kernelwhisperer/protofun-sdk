@@ -31,7 +31,7 @@ const timeframeMapping: Partial<Record<Timeframe, string>> = {
 const supportedTimeframes = getMetric("comp", "tvl").timeframes
 
 export default async function query(request: QueryRequest): QueryResult {
-  const { timeframe, since, until, limit = 1000 } = request
+  const { timeframe, since, until, limit = 300 } = request
 
   if (!supportedTimeframes.includes(timeframe)) {
     throw new Error(`Timeframe '${timeframe}' is not supported for this metric.`)

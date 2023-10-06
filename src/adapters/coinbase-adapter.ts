@@ -21,6 +21,10 @@ const timeframeMapping: Partial<Record<Timeframe, string>> = {
 export function createCoinbaseQuery(symbol: string, supportedTimeframes: Timeframe[]) {
   return async function query(request: QueryRequest): QueryResult {
     const { timeframe, since, until, limit = 300 } = request
+    if (limit > 300) {
+      throw new Error(`Coinbase query limit is 300, received: ${limit}`)
+    }
+
     const interval = timeframeMapping[timeframe] as string
 
     if (!supportedTimeframes.includes(timeframe)) {
