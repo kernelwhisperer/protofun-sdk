@@ -75,7 +75,6 @@ export type Variant = {
   /**
    * @default false
    */
-  requiresRefetch?: boolean
 }
 
 export type Metric = {
@@ -113,6 +112,10 @@ export const METRICS_MAP: MetricsMapType = {
       significantDigits: [0],
       timeframes: ["Minute", "Hour", "Day", "Week"],
       title: "BTC price",
+      variants: [
+        { label: "Coinbase", precision: 1 },
+        { label: "Binance", precision: 1 },
+      ],
     },
   },
   comp: {
@@ -125,6 +128,10 @@ export const METRICS_MAP: MetricsMapType = {
       significantDigits: [2],
       timeframes: ["Minute", "Hour", "Day", "Week"],
       title: "Comp price",
+      variants: [
+        { label: "Coinbase", precision: 1 },
+        { label: "Binance", precision: 1 },
+      ],
     },
     tvl: {
       allowCompactPriceScale: true,
@@ -161,8 +168,8 @@ export const METRICS_MAP: MetricsMapType = {
       timeframes: ["Minute", "Hour", "Day"], // TODO
       title: "Ether price",
       variants: [
-        { label: "Coinbase", precision: 1, requiresRefetch: true },
-        { label: "Binance", precision: 1, requiresRefetch: true },
+        { label: "Coinbase", precision: 1 },
+        { label: "Binance", precision: 1 },
       ],
     },
     tx_cost: {
