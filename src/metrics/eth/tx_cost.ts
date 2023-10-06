@@ -24,7 +24,7 @@ export default async function query(request: QueryRequest): QueryResult {
     queryBaseFeePerGas({ limit, since, timeframe, until }),
     priceUnit === PriceUnit.ETH
       ? Promise.resolve([])
-      : queryEtherPrice({ limit, since, timeframe, until }),
+      : queryEtherPrice({ limit, since, timeframe, until, variant: 0 }),
   ])
 
   if (priceUnit === PriceUnit.ETH) {

@@ -2,6 +2,7 @@ import { createClient, fetchExchange, gql } from "urql/core"
 
 import { IndexerError } from "../../errors"
 import {
+  Candle,
   DEFAULT_POLLING_INTERVAL,
   QueryRequest,
   QueryResult,
@@ -76,7 +77,7 @@ export default async function query(request: QueryRequest): QueryResult {
   }
 
   const data = response.data[collection] as MarketDailySnapshot[]
-  const parsed = []
+  const parsed: Candle[] = []
 
   for (let i = data.length - 1; i >= 0; i--) {
     parsed.push({

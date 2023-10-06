@@ -6,9 +6,9 @@ import { wait } from "../../../src/utils"
 it("Daily candles", async () => {
   // act
   const candles = await query({
-    since: "0",
     timeframe: "Day",
     until: "1503273600",
+    variant: 1,
   })
   // assert
   expect(candles).toMatchSnapshot()
@@ -20,17 +20,19 @@ it("Daily candles - EIP 1559", async () => {
     since: "1628121600",
     timeframe: "Day",
     until: "1628553600",
+    variant: 1,
   })
   // assert
   expect(candles).toMatchSnapshot()
 })
 
-it("Hourly candles", async () => {
+it("Hourly candles - EIP 1559", async () => {
   // act
   const candles = await query({
-    since: "0",
+    since: "1628121600",
     timeframe: "Hour",
-    until: "1502960400",
+    until: "1628136000",
+    variant: 1,
   })
   // assert
   expect(candles).toMatchSnapshot()
@@ -41,6 +43,7 @@ it("Block candles", async () => {
   try {
     await query({
       timeframe: "Block",
+      variant: 1,
     })
   } catch (error) {
     // assert
@@ -56,6 +59,7 @@ it("Subscribe", async () => {
   const candles = await query({
     limit: 1,
     timeframe,
+    variant: 1,
   })
   // act
   const unsubscribe = subscribe({
@@ -66,6 +70,7 @@ it("Subscribe", async () => {
     pollingInterval: 3_000,
     since: candles[0].timestamp,
     timeframe,
+    variant: 1,
   })
   // assert
   await wait(5_000)

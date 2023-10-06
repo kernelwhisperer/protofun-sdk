@@ -72,7 +72,10 @@ export type MetricId = MetricIdForProtocol<ProtocolId>
 export type Variant = {
   label: string
   precision: number
-  value?: string
+  /**
+   * @default false
+   */
+  requiresRefetch?: boolean
 }
 
 export type Metric = {
@@ -155,8 +158,12 @@ export const METRICS_MAP: MetricsMapType = {
       priceUnits: [PriceUnit.USD],
       protocol: "eth",
       significantDigits: [2],
-      timeframes: ["Minute", "Hour", "Day", "Week"],
+      timeframes: ["Minute", "Hour", "Day"], // TODO
       title: "Ether price",
+      variants: [
+        { label: "Coinbase", precision: 1, requiresRefetch: true },
+        { label: "Binance", precision: 1, requiresRefetch: true },
+      ],
     },
     tx_cost: {
       id: "tx_cost",
@@ -165,7 +172,7 @@ export const METRICS_MAP: MetricsMapType = {
       priceUnits: [PriceUnit.USD, PriceUnit.ETH],
       protocol: "eth",
       significantDigits: [2, 5],
-      timeframes: ["Minute", "Hour", "Day", "Week"],
+      timeframes: ["Minute", "Hour", "Day"], // TODO
       title: "Transaction cost",
       variants: [
         { label: "ETH Transfer", precision: 1e18 / 21_000 },

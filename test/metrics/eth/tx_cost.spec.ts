@@ -35,7 +35,8 @@ it("Daily candles in ETH", async () => {
   expect(candles.map(mapToSimpleTransfer)).toMatchSnapshot()
 })
 
-it("Weekly candles in USD", async () => {
+// TODO
+it.skip("Weekly candles in USD", async () => {
   // act
   const candles = await query({
     since: "1627862400",
@@ -46,7 +47,8 @@ it("Weekly candles in USD", async () => {
   expect(candles.map(mapToSimpleTransfer)).toMatchSnapshot()
 })
 
-it("Weekly candles in ETH", async () => {
+// TODO
+it.skip("Weekly candles in ETH", async () => {
   // act
   const candles = await query({
     priceUnit: PriceUnit.ETH,

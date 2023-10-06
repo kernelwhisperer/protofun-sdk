@@ -60,11 +60,12 @@ export function createBinanceSubscribe(query: QueryFn) {
       onNewData,
       priceUnit,
       pollingInterval = DEFAULT_POLLING_INTERVAL,
+      variant,
     } = request
     let lastTimestamp = since
 
     const intervalId = setInterval(async () => {
-      const data = await query({ priceUnit, since: lastTimestamp, timeframe })
+      const data = await query({ priceUnit, since: lastTimestamp, timeframe, variant })
 
       if (data.length) {
         lastTimestamp = data[data.length - 1].timestamp

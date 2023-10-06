@@ -6,7 +6,6 @@ import { wait } from "../../../src/utils"
 it("Blocks", async () => {
   // act
   const candles = await query({
-    since: "0",
     timeframe: "Block",
     until: "1628166868",
   })
