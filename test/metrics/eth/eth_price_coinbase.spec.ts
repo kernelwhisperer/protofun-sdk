@@ -36,6 +36,28 @@ it("Hourly candles - EIP 1559", async () => {
   expect(candles).toMatchSnapshot()
 })
 
+it("Hourly candles > 300", async () => {
+  // act
+  const candles = await query({
+    since: "1695577147",
+    timeframe: "Hour",
+    until: "1696761547",
+  })
+  // assert
+  expect(candles.length).to.equal(329)
+})
+
+it("Hourly candles === 1000", async () => {
+  // act
+  const candles = await query({
+    since: String(1696761547 - 3600 * 1_000),
+    timeframe: "Hour",
+    until: "1696761547",
+  })
+  // assert
+  expect(candles.length).to.equal(1000)
+})
+
 it("Block candles", async () => {
   // act
   try {
