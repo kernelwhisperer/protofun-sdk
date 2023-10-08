@@ -12,7 +12,7 @@ const mapToSimpleTransfer = (x: Candle) => ({
   timestamp: x.timestamp,
 })
 
-it("Daily candles in USD", async () => {
+it("Daily candles in USD - after EIP 1559", async () => {
   // act
   const candles = await query({
     since: "1628121600",
@@ -23,7 +23,18 @@ it("Daily candles in USD", async () => {
   expect(candles.map(mapToSimpleTransfer)).toMatchSnapshot()
 })
 
-it("Daily candles in ETH", async () => {
+it("Daily candles in USD - during EIP 1559", async () => {
+  // act
+  const candles = await query({
+    since: "1627689600",
+    timeframe: "Day",
+    until: "1628553600",
+  })
+  // assert
+  expect(candles).toMatchSnapshot()
+})
+
+it("Daily candles in ETH - after EIP 1559", async () => {
   // act
   const candles = await query({
     priceUnit: PriceUnit.ETH,

@@ -20,7 +20,7 @@ export default async function query(request: QueryRequest): QueryResult {
     throw new Error(`Timeframe '${timeframe}' is not supported for this metric.`)
   }
 
-  let [baseFeePerGas, etherPrice] = await Promise.all([
+  const [gasCandles, priceCandles] = await Promise.all([
     queryBaseFeePerGas({ limit, since, timeframe, until }),
     priceUnit === PriceUnit.ETH
       ? Promise.resolve([])
@@ -28,25 +28,34 @@ export default async function query(request: QueryRequest): QueryResult {
   ])
 
   if (priceUnit === PriceUnit.ETH) {
-    return baseFeePerGas
+    return gasCandles
   }
 
-  etherPrice = etherPrice.slice(etherPrice.length - baseFeePerGas.length)
+  const etherPriceMap: Record<string, Candle> = {}
 
-  if (baseFeePerGas.length !== etherPrice.length) {
-    // eslint-disable-next-line no-console
-    console.log("📜 LOG > baseFeePerGas, etherPrice:", baseFeePerGas, etherPrice)
-    throw new Error("queryTransferCostUsd: This should never happen!")
+  for (let i = 0; i < priceCandles.length; i++) {
+    const priceCandle = priceCandles[i]
+    etherPriceMap[priceCandle.timestamp] = priceCandle
   }
 
-  return baseFeePerGas.map((x, index) => ({
-    ...x,
-    close: String(parseFloat(x.close) * parseFloat((etherPrice[index] as Candle).close)),
-    high: String(parseFloat(x.high) * parseFloat((etherPrice[index] as Candle).high)),
-    low: String(parseFloat(x.low) * parseFloat((etherPrice[index] as Candle).low)),
-    open: String(parseFloat(x.open) * parseFloat((etherPrice[index] as Candle).open)),
-    timestamp: x.timestamp,
-  }))
+  const parsed: Candle[] = []
+
+  for (let i = 0; i < gasCandles.length; i++) {
+    const gasCandle = gasCandles[i]
+    const priceCandle = etherPriceMap[gasCandle.timestamp]
+
+    if (!priceCandle) continue
+
+    parsed.push({
+      close: String(parseFloat(gasCandle.close) * parseFloat(priceCandle.close)),
+      high: String(parseFloat(gasCandle.high) * parseFloat(priceCandle.high)),
+      low: String(parseFloat(gasCandle.low) * parseFloat(priceCandle.low)),
+      open: String(parseFloat(gasCandle.open) * parseFloat(priceCandle.open)),
+      timestamp: gasCandle.timestamp,
+    })
+  }
+
+  return parsed
 }
 
 export function subscribe(request: SubscribeRequest, logger: LoggerFn = noop): SubscribeResult {
