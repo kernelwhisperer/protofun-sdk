@@ -100,6 +100,8 @@ it("Subscribe", async () => {
   const timeframe = "Minute"
   const candles = await query({
     limit: 1,
+    // if we don't specify a since, we don't get fresh data, we get 5-7 minutes old data
+    since: String(Math.floor(Date.now() / 1000 - 60)),
     timeframe,
   })
   // act
