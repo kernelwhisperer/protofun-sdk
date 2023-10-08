@@ -100,6 +100,8 @@ export type Metric = {
 // >;
 type MetricsMapType = Record<ProtocolId, Partial<Record<MetricId, Metric>>>
 
+const coinbaseTimeframes: Timeframe[] = ["Minute", "Hour", "Day"] // TODO
+
 export const METRICS_MAP: MetricsMapType = {
   aave: {},
   btc: {
@@ -110,7 +112,7 @@ export const METRICS_MAP: MetricsMapType = {
       priceUnits: [PriceUnit.USD],
       protocol: "btc",
       significantDigits: [0],
-      timeframes: ["Minute", "Hour", "Day", "Week"],
+      timeframes: coinbaseTimeframes,
       title: "BTC price",
       variants: [
         { label: "Coinbase", precision: 1 },
@@ -126,7 +128,7 @@ export const METRICS_MAP: MetricsMapType = {
       priceUnits: [PriceUnit.USD],
       protocol: "comp",
       significantDigits: [2],
-      timeframes: ["Minute", "Hour", "Day", "Week"],
+      timeframes: coinbaseTimeframes,
       title: "Comp price",
       variants: [
         { label: "Coinbase", precision: 1 },
@@ -165,7 +167,7 @@ export const METRICS_MAP: MetricsMapType = {
       priceUnits: [PriceUnit.USD],
       protocol: "eth",
       significantDigits: [2],
-      timeframes: ["Minute", "Hour", "Day"], // TODO
+      timeframes: coinbaseTimeframes,
       title: "Ether price",
       variants: [
         { label: "Coinbase", precision: 1 },
@@ -179,7 +181,7 @@ export const METRICS_MAP: MetricsMapType = {
       priceUnits: [PriceUnit.USD, PriceUnit.ETH],
       protocol: "eth",
       significantDigits: [2, 5],
-      timeframes: ["Minute", "Hour", "Day"], // TODO
+      timeframes: coinbaseTimeframes,
       title: "Transaction cost",
       variants: [
         { label: "ETH Transfer", precision: 1e18 / 21_000 },
