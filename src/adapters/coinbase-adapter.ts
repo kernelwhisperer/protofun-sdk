@@ -66,6 +66,10 @@ export function createCoinbaseQuery(symbol: string, supportedTimeframes: Timefra
     const data = await res.json()
 
     if ("message" in data) {
+      if (data.message.includes("Invalid start")) {
+        // there is no data as old as this
+        return []
+      }
       throw new Error(`Something unexpected went wrong: ${data.message}`)
     }
     const collection = data as CoinbaseBucket[]

@@ -59,10 +59,6 @@ export default async function query(request: QueryRequest): QueryResult {
     throw new IndexerError(errorMessage)
   }
 
-  if (response.data[collection].length === 0) {
-    throw new IndexerError("Empty response. Has the subgraph finish syncing?")
-  }
-
   if (collection === "blocks") {
     const data = response.data[collection] as BlockData[]
 
